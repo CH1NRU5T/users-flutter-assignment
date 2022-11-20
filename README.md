@@ -2,6 +2,10 @@
 
 Users app created in flutter for the Zekademy Internship Assignment.
 
+## Demo
+
+<img src="./app demo.gif" width=150 height=300></img>
+
 ## How to Use
 
 **Step 1:**
@@ -39,3 +43,4 @@ flutter run
 - Used indexedStack to preserve the fetched list state in Users tab
 - Displaying an animation while the user list is being fetched by the API
 - Will display error if there is an error while fetching the user list from API
+- Used the dimensions as given in the figma file
