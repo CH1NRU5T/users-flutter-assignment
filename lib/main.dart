@@ -1,12 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import 'package:users/constants/constants.dart';
 import 'package:users/models/user.dart';
-import 'package:users/services/network_helper.dart';
+import 'package:users/widgets/user_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,9 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-          // primaryColor: Colors.white,
-          ),
+      theme: ThemeData(),
       home: HomePage(),
     );
   }
@@ -34,56 +27,85 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<User> users = [];
-
+  int currentIndex = 1;
+  final screens = [
+    const Center(
+      child: Text('Home'),
+    ),
+    UserList(),
+    const Center(
+      child: Text('Create'),
+    ),
+    const Center(
+      child: Text('Activities'),
+    ),
+    const Center(
+      child: Text('Profile'),
+    )
+  ];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: const Color(0xff7000ff),
+          onTap: (index) {
+            setState(() {
+              currentIndex = index;
+            });
+          },
           type: BottomNavigationBarType.fixed,
-          elevation: 0,
-          currentIndex: 1,
-          items: [
+          currentIndex: currentIndex,
+          items: const [
             BottomNavigationBarItem(
               label: 'Home',
-              activeIcon: const Icon(
+              activeIcon: Icon(
                 IconlyBold.home,
               ),
-              icon: const Icon(
+              icon: Icon(
                 IconlyLight.home,
               ),
             ),
             BottomNavigationBarItem(
-              activeIcon: const Icon(
+              activeIcon: Icon(
                 IconlyBold.user_3,
               ),
               label: 'Users',
-              icon: const Icon(
-                IconlyBold.user_3,
+              icon: Icon(
+                IconlyLight.user_1,
               ),
             ),
             BottomNavigationBarItem(
               label: 'Create',
-              icon: const Icon(
+              activeIcon: Icon(
+                IconlyBold.plus,
+              ),
+              icon: Icon(
                 IconlyLight.plus,
               ),
             ),
             BottomNavigationBarItem(
               label: 'Activities',
-              icon: const Icon(
+              activeIcon: Icon(
+                IconlyBold.heart,
+              ),
+              icon: Icon(
                 IconlyLight.heart,
               ),
             ),
             BottomNavigationBarItem(
               label: 'Profile',
-              icon: const Icon(
+              activeIcon: Icon(
+                IconlyBold.profile,
+              ),
+              icon: Icon(
                 IconlyLight.profile,
               ),
             ),
           ],
         ),
         appBar: AppBar(
-          elevation: 0,
+          elevation: 1,
           title: Image.asset('assets/images/logo.png'),
           backgroundColor: Colors.white,
           iconTheme: const IconThemeData(color: Colors.black),
@@ -98,45 +120,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        body: FutureBuilder(
-          future: NetworkHelper.getRequest(url: allUsersUrl),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                List temp = jsonDecode(snapshot.data!.body);
-                temp.forEach((element) {
-                  users.add(User(
-                      name: element['name'],
-                      username: element['username'],
-                      email: element['email'],
-                      phone: element['phone'],
-                      address:
-                          '${element['street']} ${element['suite']} ${element['city']}',
-                      website: element['website']));
-                });
-                return ListView.builder(
-                    itemCount: temp.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          leading: Image.asset(
-                            'assets/images/user.png',
-                          ),
-                        ),
-                      );
-                    });
-                return const Center(
-                  child: Text('hehe'),
-                );
-              default:
-                return const Center(
-                  child: Text(
-                    'Loading',
-                  ),
-                );
-            }
-          },
+        body: IndexedStack(
+          children: screens,
+          index: currentIndex,
         ),
       ),
     );
