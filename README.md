@@ -32,3 +32,10 @@ flutter run
 
 - [http](https://pub.dev/packages/http)
 - [iconly](https://pub.dev/packages/iconly)
+- [flutter_spinkit](https://pub.dev/packages/flutter_spinkit)
+
+### Special and Added Features
+
+- Used indexedStack to preserve the fetched list state in Users tab
+- Displaying an animation while the user list is being fetched by the API
+- Will display error if there is an error while fetching the user list from API
