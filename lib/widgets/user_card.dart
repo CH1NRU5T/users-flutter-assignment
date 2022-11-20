@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:users/models/user.dart';
+import 'package:users/widgets/animated_page_route.dart';
 
 import 'user_details.dart';
 
@@ -21,11 +22,10 @@ class UserCard extends StatelessWidget {
         child: ListTile(
           trailing: OutlinedButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => UserDetails(
-                  user: user,
-                ),
-              ));
+              Navigator.of(context).push(AnimatedPageRoute(
+                  child: UserDetails(
+                user: user,
+              )));
             },
             child: const Text(
               'View',
@@ -38,7 +38,7 @@ class UserCard extends StatelessWidget {
           subtitle: Text('@${user.username}'),
           contentPadding: const EdgeInsets.all(20),
           leading: Image.asset(
-            'assets/images/user.png',
+            'assets/images/user56x56.png',
           ),
         ),
       ),

@@ -26,7 +26,7 @@ class UserList extends StatelessWidget {
                   website: element['website']));
             });
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.only(top: 16),
               child: ListView.builder(
                   itemCount: users.length,
                   itemBuilder: (context, index) {
